@@ -96,21 +96,37 @@ function renderCatalogItem (catalog) {
 
   var $cardImg = document.createElement('img')
   $cardImg.classList.add('card-imt-top')
-  $cardImg.setAttribute('src', catalog.catalog.items[0].imageUrl)
+  $cardImg.setAttribute('src', catalog.imageUrl)
   $card.appendChild($cardImg)
 
   var $cardBody = document.createElement('div')
   $cardBody.classList.add('card-body')
   var $cardBodyHeader = document.createElement('h5')
   $cardBodyHeader.classList.add('card-title')
-  $cardBodyHeader.textContent = catalog.catalog.items[0].name
+  $cardBodyHeader.textContent = catalog.name
   var $cardBodyPrice = document.createElement('p')
   $cardBodyPrice.classList.add('card-text')
-  $cardBodyPrice.textContent = catalog.catalog.items[0].price
+  $cardBodyPrice.textContent = catalog.price
   $cardBody.appendChild($cardBodyHeader)
   $cardBody.appendChild($cardBodyPrice)
 
   $card.appendChild($cardBody)
 
   return $card
+}
+
+function renderGridCatalog (catalog) {
+  var $gridContainer = document.createElement('div')
+  $gridContainer.classList.add('container')
+  var $gridRow = document.createElement('div')
+  $gridRow.classList.add('row')
+
+  catalog.catalog.items.forEach(function (object, i) {
+    let $cardObject = renderCatalogItem(catalog.catalog.items[i])
+    $gridRow.appendChild($cardObject)
+  })
+
+  $gridContainer.appendChild($gridRow)
+
+  return $gridContainer
 }
