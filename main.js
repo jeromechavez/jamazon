@@ -130,3 +130,9 @@ function renderGridCatalog (catalog) {
 
   return $gridContainer
 }
+
+function appendGridCatalog (catalog) {
+  document.body.appendChild(renderGridCatalog(catalog))
+}
+
+appendGridCatalog(app)
