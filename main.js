@@ -89,24 +89,24 @@ var app = {
   }
 }
 
-function renderCatalogItem(catalog) {
+function renderCatalogItem(item) {
   var $card = document.createElement('div')
   $card.classList.add('card')
   $card.setAttribute('style', 'width: 18rem')
 
   var $cardImg = document.createElement('img')
   $cardImg.classList.add('card-imt-top')
-  $cardImg.setAttribute('src', catalog.imageUrl)
+  $cardImg.setAttribute('src', item.imageUrl)
   $card.appendChild($cardImg)
 
   var $cardBody = document.createElement('div')
   $cardBody.classList.add('card-body')
   var $cardBodyHeader = document.createElement('h5')
   $cardBodyHeader.classList.add('card-title')
-  $cardBodyHeader.textContent = catalog.name
+  $cardBodyHeader.textContent = item.name
   var $cardBodyPrice = document.createElement('p')
   $cardBodyPrice.classList.add('card-text')
-  $cardBodyPrice.textContent = '$' + catalog.price
+  $cardBodyPrice.textContent = '$' + item.price
 
   $cardBody.appendChild($cardBodyHeader)
   $cardBody.appendChild($cardBodyPrice)
@@ -138,7 +138,8 @@ function renderGridCatalog(catalog) {
 }
 
 function appendGridCatalog(catalog) {
-  document.body.appendChild(renderGridCatalog(catalog))
+  var $appendGrid = document.querySelector("[data-view='catalog']")
+  $appendGrid.appendChild(renderGridCatalog(catalog))
 }
 
 appendGridCatalog(app)
