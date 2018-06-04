@@ -142,4 +142,45 @@ function appendGridCatalog(catalog) {
   $appendGrid.appendChild(renderGridCatalog(catalog))
 }
 
+function domItem(item) {
+  var $modalItem = document.createElement('div')
+  $modalItem.classList.add('modal')
+  $modalItem.setAttribute('tabindex', '-1')
+  $modalItem.setAttribute('role', 'dialog')
+
+  var $modalItemDialog = document.createElement('div')
+  $modalItemDialog.classList.add('modal-dialog')
+  $modalItemDialog.setAttribute('role', 'document')
+
+  var $modalItemContent = document.createElement('div')
+  $modalItemContent.classList.add('modal-content')
+
+  var $modalItemHeader = document.createElement('div')
+  $modalItemHeader.classList.add('modal-header')
+
+  var $modalItemTitle = document.createElement('h5')
+  $modalItemTitle.classList.add('modal-title')
+  $modalItemTitle.textContent = item.name
+
+  var $modalItemButton = document.createElement('button')
+  $modalItemButton.setAttribute('type', 'button')
+  $modalItemButton.classList.add('close')
+  $modalItemButton.setAttribute('data-dismiss', 'modal')
+  $modalItemButton.setAttribute('aria-label', 'Close')
+
+  var $modalItemButtonText = document.createElement('span')
+  $modalItemButtonText.setAttribute('aria-hidden', 'true')
+  $modalItemButtonText.textContent = '&times;'
+  $modalItemButton.appendChild($modalItemButtonText)
+
+  $modalItemHeader.appendChild($modalItemTitle)
+  $modalItemHeader.appendChild($modalItemButton)
+  $modalItemContent.appendChild($modalItemHeader)
+
+  var $modalItemBody = document.createElement('div')
+  $modalItemBody.classList.add('modal-body')
+}
+
 appendGridCatalog(app)
+
+console.log(domItem(app.catalog.items[0]))
