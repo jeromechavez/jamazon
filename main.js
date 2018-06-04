@@ -89,7 +89,7 @@ var app = {
   }
 }
 
-function renderCatalogItem (catalog) {
+function renderCatalogItem(catalog) {
   var $card = document.createElement('div')
   $card.classList.add('card')
   $card.setAttribute('style', 'width: 18rem')
@@ -106,7 +106,8 @@ function renderCatalogItem (catalog) {
   $cardBodyHeader.textContent = catalog.name
   var $cardBodyPrice = document.createElement('p')
   $cardBodyPrice.classList.add('card-text')
-  $cardBodyPrice.textContent = catalog.price
+  $cardBodyPrice.textContent = '$' + catalog.price
+
   $cardBody.appendChild($cardBodyHeader)
   $cardBody.appendChild($cardBodyPrice)
 
@@ -115,9 +116,14 @@ function renderCatalogItem (catalog) {
   return $card
 }
 
-function renderGridCatalog (catalog) {
+function renderGridCatalog(catalog) {
   var $gridContainer = document.createElement('div')
   $gridContainer.classList.add('container')
+
+  var $gridHeader = document.createElement('h1')
+  $gridHeader.textContent = 'Jamazon'
+  $gridContainer.appendChild($gridHeader)
+
   var $gridRow = document.createElement('div')
   $gridRow.classList.add('row')
 
@@ -131,7 +137,7 @@ function renderGridCatalog (catalog) {
   return $gridContainer
 }
 
-function appendGridCatalog (catalog) {
+function appendGridCatalog(catalog) {
   document.body.appendChild(renderGridCatalog(catalog))
 }
 
