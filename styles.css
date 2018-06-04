@@ -1,0 +1,40 @@
+* {
+  text-align: center;
+}
+
+body {
+  background-color: gray;
+}
+
+img {
+  max-width: 200px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+.card {
+  border: solid 3px green;
+  box-shadow: 5px 2px 8px #555;
+  margin: 5px 5px;
+  float: left;
+}
+
+p {
+  color: red;
+}
+
+h1 {
+  font-family: 'Bowlby One SC', cursive;
+  font-size: 75px;
+  color: green;
+  border-bottom: solid 5px green;
+}
+
+.row {
+  position: relative;
+  float: left;
+  flex-wrap: wrap;
+}
