@@ -179,8 +179,32 @@ function domItem(item) {
 
   var $modalItemBody = document.createElement('div')
   $modalItemBody.classList.add('modal-body')
+  var $modalItemImage = document.createElement('img')
+  $modalItemImage.setAttribute('src', item.imageUrl)
+  var $modalItemBrand = document.createElement('h6')
+  $modalItemBrand.textContent = 'Brand: ' + item.brand
+  var $modalItemPrice = document.createElement('p')
+  $modalItemPrice.textContent = '$' + item.price
+  var $modalItemDescription = document.createElement('p')
+  $modalItemDescription.textContent = 'Description: ' + item.description
+  var $modalItemDetails = document.createElement('p')
+  $modalItemDetails.textContent = 'Details: ' + item.details
+  var $modalItemOrigin = document.createElement('p')
+  $modalItemOrigin.textContent = 'Origin: ' + item.origin
+
+  $modalItemBody.appendChild($modalItemImage)
+  $modalItemBody.appendChild($modalItemBrand)
+  $modalItemBody.appendChild($modalItemPrice)
+  $modalItemBody.appendChild($modalItemDescription)
+  $modalItemBody.appendChild($modalItemDetails)
+  $modalItemBody.appendChild($modalItemOrigin)
+
+  $modalItemContent.appendChild($modalItemBody)
+  $modalItemDialog.appendChild($modalItemContent)
+  $modalItem.appendChild($modalItemDialog)
+
+  return $modalItem
 }
 
 appendGridCatalog(app)
-
-console.log(domItem(app.catalog.items[0]))
+console.log(domItem(app.catalog.items[1]))
