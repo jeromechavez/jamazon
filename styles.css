@@ -38,3 +38,7 @@ h1 {
 .hidden {
   display: none;
 }
+
+#centerDetail {
+  margin-top: 25%;
+}

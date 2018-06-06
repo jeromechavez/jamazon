@@ -166,6 +166,7 @@ function renderAppState(catalog) {
 function renderItemDetails(item) {
   var $card = document.createElement('div')
   $card.classList.add('card')
+  $card.setAttribute('id', 'centerDetail')
 
   var $cardImage = document.createElement('img')
   $cardImage.classList.add('card-img-top')
