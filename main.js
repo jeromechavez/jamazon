@@ -93,6 +93,7 @@ function renderCatalogItem(item) {
   var $card = document.createElement('div')
   $card.classList.add('card')
   $card.setAttribute('style', 'width: 18rem')
+  $card.setAttribute('data-item-id', item.itemId)
 
   var $cardImg = document.createElement('img')
   $cardImg.classList.add('card-imt-top')
@@ -207,8 +208,12 @@ function domItem(item) {
 }
 
 function getObject(catalog, itemID) {
-  return catalog.filter(item => item.itemId === itemID)[0]
+  return catalog.filter(item => item.itemId === itemID)
 }
+
+var $container = document.querySelector('.container')
+$container.addEventListener('click', function (event) {
+})
 
 appendGridCatalog(app)
 console.log(domItem(app.catalog.items[1]))
