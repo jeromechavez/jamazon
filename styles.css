@@ -38,3 +38,7 @@ h1 {
   float: left;
   flex-wrap: wrap;
 }
+
+.hidden {
+  display: none;
+}

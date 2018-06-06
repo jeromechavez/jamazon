@@ -138,12 +138,18 @@ function renderGridCatalog(catalog) {
   return $gridContainer
 }
 
-function appendGridCatalog(catalog) {
-  var $appendGrid = document.querySelector("[data-view='catalog']")
-  $appendGrid.appendChild(renderGridCatalog(catalog))
+function renderAppState(catalog) {
+  if (app.view === 'catalog') {
+    var $appendGrid = document.querySelector("[data-view='catalog']")
+    $appendGrid.appendChild(renderGridCatalog(catalog))
+  }
+  if (app.view === 'details') {
+    var $appendDetail = document.querySelector("[data-view='details']")
+    $appendDetail.appendChild(renderItemDetails(app.details.item))
+  }
 }
 
-function domItem(item) {
+function renderItemDetails(item) {
   var $modalItem = document.createElement('div')
   $modalItem.classList.add('modal')
   $modalItem.setAttribute('tabindex', '-1')
@@ -211,9 +217,7 @@ function getObject(catalog, itemID) {
   return catalog.filter(item => item.itemId === itemID)[0]
 }
 
-appendGridCatalog(app)
-console.log(domItem(app.catalog.items[1]))
-console.log(getObject(app.catalog.items, 8))
+renderAppState(app)
 
 var $container = document.querySelector('.container')
 $container.addEventListener('click', (event) => {
@@ -222,5 +226,6 @@ $container.addEventListener('click', (event) => {
   if ($closestItem) {
     app.view = 'details'
     app.details.item = getObject(app.catalog.items, itemClicked)
+    renderAppState(app)
   }
 })
