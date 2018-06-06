@@ -262,3 +262,8 @@ $container.addEventListener('click', (event) => {
     renderAppState(app)
   }
 })
+
+var $detailAddCart = document.querySelector("[data-view='details']")
+$detailAddCart.addEventListener('click', function () {
+  app.cart.item.push(app.details.item)
+})
