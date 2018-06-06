@@ -206,5 +206,10 @@ function domItem(item) {
   return $modalItem
 }
 
+function getObject(catalog, itemID) {
+  return catalog.filter(item => item.itemId === itemID)[0]
+}
+
 appendGridCatalog(app)
 console.log(domItem(app.catalog.items[1]))
+console.log(getObject(app.catalog.items, 2))
