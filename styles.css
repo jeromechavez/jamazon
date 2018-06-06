@@ -40,5 +40,16 @@ h1 {
 }
 
 #centerDetail {
-  margin-top: 25%;
+  margin-top: 10%;
+}
+
+.container-cart {
+  position: absolute;
+  right: 10%;
+  margin-top: 5%;
+}
+
+.header-position {
+  margin-left: -10%;
+  margin-right: -10%;
 }
