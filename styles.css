@@ -22,10 +22,6 @@ img {
   float: left;
 }
 
-p {
-  color: red;
-}
-
 h1 {
   font-family: 'Bowlby One SC', cursive;
   font-size: 75px;
@@ -37,4 +33,12 @@ h1 {
   position: relative;
   float: left;
   flex-wrap: wrap;
+}
+
+.hidden {
+  display: none;
+}
+
+#centerDetail {
+  margin-top: 25%;
 }

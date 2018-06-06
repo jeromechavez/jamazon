@@ -93,6 +93,7 @@ function renderCatalogItem(item) {
   var $card = document.createElement('div')
   $card.classList.add('card')
   $card.setAttribute('style', 'width: 18rem')
+  $card.setAttribute('data-item-id', item.itemId)
 
   var $cardImg = document.createElement('img')
   $cardImg.classList.add('card-imt-top')
@@ -104,7 +105,7 @@ function renderCatalogItem(item) {
   var $cardBodyHeader = document.createElement('h5')
   $cardBodyHeader.classList.add('card-title')
   $cardBodyHeader.textContent = item.name
-  var $cardBodyPrice = document.createElement('p')
+  var $cardBodyPrice = document.createElement('h6')
   $cardBodyPrice.classList.add('card-text')
   $cardBodyPrice.textContent = '$' + item.price
 
@@ -137,9 +138,92 @@ function renderGridCatalog(catalog) {
   return $gridContainer
 }
 
-function appendGridCatalog(catalog) {
-  var $appendGrid = document.querySelector("[data-view='catalog']")
-  $appendGrid.appendChild(renderGridCatalog(catalog))
+function showView(view) {
+  var $catalogView = document.querySelector("[data-view='catalog']")
+  var $detailsView = document.querySelector("[data-view='details']")
+  if (view === 'details') {
+    $catalogView.classList.add('hidden')
+    $detailsView.classList.remove('hidden')
+  }
+  if (view === 'catalog') {
+    $catalogView.classList.remove('hidden')
+    $detailsView.classList.add('hidden')
+  }
 }
 
-appendGridCatalog(app)
+function renderAppState(catalog) {
+  showView(app.view)
+  if (app.view === 'catalog') {
+    var $appendGrid = document.querySelector("[data-view='catalog']")
+    $appendGrid.appendChild(renderGridCatalog(catalog))
+  }
+  if (app.view === 'details') {
+    var $appendDetail = document.querySelector("[data-view='details']")
+    $appendDetail.appendChild(renderItemDetails(app.details.item))
+  }
+}
+
+function renderItemDetails(item) {
+  var $card = document.createElement('div')
+  $card.classList.add('card')
+  $card.setAttribute('id', 'centerDetail')
+
+  var $cardImage = document.createElement('img')
+  $cardImage.classList.add('card-img-top')
+  $cardImage.setAttribute('src', item.imageUrl)
+  $cardImage.setAttribute('atl', 'Card image cap')
+  $card.appendChild($cardImage)
+
+  var $cardBody = document.createElement('div')
+  $cardBody.classList.add('card-body')
+
+  var $cardHeader = document.createElement('h4')
+  $cardHeader.classList.add('card-title')
+  $cardHeader.textContent = item.name
+  $cardBody.appendChild($cardHeader)
+
+  var $cardBrand = document.createElement('h5')
+  $cardBrand.classList.add('card-text')
+  $cardBrand.textContent = item.brand
+  $cardBody.appendChild($cardBrand)
+
+  var $cardDescript = document.createElement('p')
+  $cardDescript.classList.add('card-text')
+  $cardDescript.textContent = item.description
+  $cardBody.appendChild($cardDescript)
+
+  var $cardDetails = document.createElement('p')
+  $cardDetails.classList.add('card-text')
+  $cardDetails.textContent = item.details
+  $cardBody.appendChild($cardDetails)
+
+  var $cardOrigin = document.createElement('h5')
+  $cardOrigin.classList.add('card-text')
+  $cardOrigin.textContent = item.origin
+  $cardBody.appendChild($cardOrigin)
+
+  var $cardPrice = document.createElement('h4')
+  $cardPrice.classList.add('card-title')
+  $cardPrice.textContent = '$' + item.price
+  $cardBody.appendChild($cardPrice)
+
+  $card.appendChild($cardBody)
+  return $card
+}
+
+function getObject(catalog, itemID) {
+  return catalog.filter(item => item.itemId === itemID)[0]
+}
+
+renderAppState(app)
+
+var $container = document.querySelector('.container')
+$container.addEventListener('click', (event) => {
+  var $closestItem = event.target.closest('.card')
+  var itemClicked = parseInt($closestItem.dataset.itemId, 16)
+  if ($closestItem) {
+    app.view = 'details'
+    app.details.item = getObject(app.catalog.items, itemClicked)
+    renderAppState(app)
+  }
+})
