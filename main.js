@@ -163,11 +163,13 @@ function renderAppState(catalog) {
 
   if (app.view === 'catalog') {
     var $appendGrid = document.querySelector("[data-view='catalog']")
+    $appendGrid.innerHTML = ''
     $appendGrid.appendChild(renderGridCatalog(catalog))
   }
   if (app.view === 'details') {
     var $appendDetail = document.querySelector("[data-view='details']")
     var $renderHeader = document.createElement('h1')
+    $appendDetail.innerHTML = ''
     $renderHeader.classList.add('header-position')
     $renderHeader.textContent = 'Jamazon'
     $appendDetail.appendChild($renderHeader)
@@ -238,7 +240,7 @@ function renderItemDetails(item) {
 
   var $addToCart = document.createElement('button')
   $addToCart.classList.add('button')
-  $addToCart.classList.add('btn-add')
+  $addToCart.setAttribute('id', 'btn-add')
   $addToCart.textContent = 'Add To Cart'
   $cardBody.appendChild($addToCart)
 
@@ -264,6 +266,9 @@ $container.addEventListener('click', (event) => {
 })
 
 var $detailAddCart = document.querySelector("[data-view='details']")
-$detailAddCart.addEventListener('click', function () {
-  app.cart.item.push(app.details.item)
+$detailAddCart.addEventListener('click', function (e) {
+  if (e.target.id === 'btn-add') {
+    app.cart.item.push(app.details.item)
+    renderAppState(app)
+  }
 })
