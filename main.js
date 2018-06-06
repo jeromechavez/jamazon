@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 var app = {
   view: 'catalog',
   catalog: {
@@ -88,7 +90,7 @@ var app = {
     item: null
   },
   cart: {
-    item: null
+    item: []
   }
 }
 
@@ -164,6 +166,21 @@ function renderAppState(catalog) {
     var $appendDetail = document.querySelector("[data-view='details']")
     $appendDetail.appendChild(renderItemDetails(app.details.item))
   }
+}
+
+function renderCart(app) {
+  var $cart = document.createElement('div')
+  $cart.classList.add('cart')
+
+  var $cartHeader = document.createElement('h5')
+  $cartHeader.textContent = 'Cart'
+  $cart.appendChild($cartHeader)
+
+  var $cartNumber = document.createElement('h5')
+  $cartNumber.textContent = '(' + app.item.length + ')'
+  $cart.appendChild($cartNumber)
+
+  return $cart
 }
 
 function renderItemDetails(item) {
