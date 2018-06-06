@@ -208,13 +208,19 @@ function domItem(item) {
 }
 
 function getObject(catalog, itemID) {
-  return catalog.filter(item => item.itemId === itemID)
+  return catalog.filter(item => item.itemId === itemID)[0]
 }
-
-var $container = document.querySelector('.container')
-$container.addEventListener('click', function (event) {
-})
 
 appendGridCatalog(app)
 console.log(domItem(app.catalog.items[1]))
-console.log(getObject(app.catalog.items, 2))
+console.log(getObject(app.catalog.items, 8))
+
+var $container = document.querySelector('.container')
+$container.addEventListener('click', (event) => {
+  var $closestItem = event.target.closest('.card')
+  var itemClicked = parseInt($closestItem.dataset.itemId, 16)
+  if ($closestItem) {
+    app.view = 'details'
+    app.details.item = getObject(app.catalog.items, itemClicked)
+  }
+})
