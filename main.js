@@ -236,6 +236,12 @@ function renderItemDetails(item) {
   $cardPrice.textContent = '$' + item.price
   $cardBody.appendChild($cardPrice)
 
+  var $addToCart = document.createElement('button')
+  $addToCart.classList.add('button')
+  $addToCart.classList.add('btn-add')
+  $addToCart.textContent = 'Add To Cart'
+  $cardBody.appendChild($addToCart)
+
   $card.appendChild($cardBody)
   return $card
 }
