@@ -244,6 +244,12 @@ function renderItemDetails(item) {
   $addToCart.textContent = 'Add To Cart'
   $cardBody.appendChild($addToCart)
 
+  var $continueShop = document.createElement('button')
+  $continueShop.classList.add('button')
+  $continueShop.setAttribute('id', 'btn-continue')
+  $continueShop.textContent = 'Back'
+  $cardBody.appendChild($continueShop)
+
   $card.appendChild($cardBody)
   return $card
 }
