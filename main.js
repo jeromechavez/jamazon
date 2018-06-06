@@ -105,7 +105,7 @@ function renderCatalogItem(item) {
   var $cardBodyHeader = document.createElement('h5')
   $cardBodyHeader.classList.add('card-title')
   $cardBodyHeader.textContent = item.name
-  var $cardBodyPrice = document.createElement('p')
+  var $cardBodyPrice = document.createElement('h6')
   $cardBodyPrice.classList.add('card-text')
   $cardBodyPrice.textContent = '$' + item.price
 
@@ -138,7 +138,21 @@ function renderGridCatalog(catalog) {
   return $gridContainer
 }
 
+function showView(view) {
+  var $catalogView = document.querySelector("[data-view='catalog']")
+  var $detailsView = document.querySelector("[data-view='details']")
+  if (view === 'details') {
+    $catalogView.classList.add('hidden')
+    $detailsView.classList.remove('hidden')
+  }
+  if (view === 'catalog') {
+    $catalogView.classList.remove('hidden')
+    $detailsView.classList.add('hidden')
+  }
+}
+
 function renderAppState(catalog) {
+  showView(app.view)
   if (app.view === 'catalog') {
     var $appendGrid = document.querySelector("[data-view='catalog']")
     $appendGrid.appendChild(renderGridCatalog(catalog))
@@ -150,67 +164,50 @@ function renderAppState(catalog) {
 }
 
 function renderItemDetails(item) {
-  var $modalItem = document.createElement('div')
-  $modalItem.classList.add('modal')
-  $modalItem.setAttribute('tabindex', '-1')
-  $modalItem.setAttribute('role', 'dialog')
+  var $card = document.createElement('div')
+  $card.classList.add('card')
 
-  var $modalItemDialog = document.createElement('div')
-  $modalItemDialog.classList.add('modal-dialog')
-  $modalItemDialog.setAttribute('role', 'document')
+  var $cardImage = document.createElement('img')
+  $cardImage.classList.add('card-img-top')
+  $cardImage.setAttribute('src', item.imageUrl)
+  $cardImage.setAttribute('atl', 'Card image cap')
+  $card.appendChild($cardImage)
 
-  var $modalItemContent = document.createElement('div')
-  $modalItemContent.classList.add('modal-content')
+  var $cardBody = document.createElement('div')
+  $cardBody.classList.add('card-body')
 
-  var $modalItemHeader = document.createElement('div')
-  $modalItemHeader.classList.add('modal-header')
+  var $cardHeader = document.createElement('h4')
+  $cardHeader.classList.add('card-title')
+  $cardHeader.textContent = item.name
+  $cardBody.appendChild($cardHeader)
 
-  var $modalItemTitle = document.createElement('h5')
-  $modalItemTitle.classList.add('modal-title')
-  $modalItemTitle.textContent = item.name
+  var $cardBrand = document.createElement('h5')
+  $cardBrand.classList.add('card-text')
+  $cardBrand.textContent = item.brand
+  $cardBody.appendChild($cardBrand)
 
-  var $modalItemButton = document.createElement('button')
-  $modalItemButton.setAttribute('type', 'button')
-  $modalItemButton.classList.add('close')
-  $modalItemButton.setAttribute('data-dismiss', 'modal')
-  $modalItemButton.setAttribute('aria-label', 'Close')
+  var $cardDescript = document.createElement('p')
+  $cardDescript.classList.add('card-text')
+  $cardDescript.textContent = item.description
+  $cardBody.appendChild($cardDescript)
 
-  var $modalItemButtonText = document.createElement('span')
-  $modalItemButtonText.setAttribute('aria-hidden', 'true')
-  $modalItemButtonText.textContent = '&times;'
-  $modalItemButton.appendChild($modalItemButtonText)
+  var $cardDetails = document.createElement('p')
+  $cardDetails.classList.add('card-text')
+  $cardDetails.textContent = item.details
+  $cardBody.appendChild($cardDetails)
 
-  $modalItemHeader.appendChild($modalItemTitle)
-  $modalItemHeader.appendChild($modalItemButton)
-  $modalItemContent.appendChild($modalItemHeader)
+  var $cardOrigin = document.createElement('h5')
+  $cardOrigin.classList.add('card-text')
+  $cardOrigin.textContent = item.origin
+  $cardBody.appendChild($cardOrigin)
 
-  var $modalItemBody = document.createElement('div')
-  $modalItemBody.classList.add('modal-body')
-  var $modalItemImage = document.createElement('img')
-  $modalItemImage.setAttribute('src', item.imageUrl)
-  var $modalItemBrand = document.createElement('h6')
-  $modalItemBrand.textContent = 'Brand: ' + item.brand
-  var $modalItemPrice = document.createElement('p')
-  $modalItemPrice.textContent = '$' + item.price
-  var $modalItemDescription = document.createElement('p')
-  $modalItemDescription.textContent = 'Description: ' + item.description
-  var $modalItemDetails = document.createElement('p')
-  $modalItemDetails.textContent = 'Details: ' + item.details
-  var $modalItemOrigin = document.createElement('p')
-  $modalItemOrigin.textContent = 'Origin: ' + item.origin
+  var $cardPrice = document.createElement('h4')
+  $cardPrice.classList.add('card-title')
+  $cardPrice.textContent = '$' + item.price
+  $cardBody.appendChild($cardPrice)
 
-  $modalItemBody.appendChild($modalItemImage)
-  $modalItemBody.appendChild($modalItemBrand)
-  $modalItemBody.appendChild($modalItemPrice)
-  $modalItemBody.appendChild($modalItemDescription)
-  $modalItemBody.appendChild($modalItemDetails)
-  $modalItemBody.appendChild($modalItemOrigin)
-
-  $modalItemContent.appendChild($modalItemBody)
-  $modalItemDialog.appendChild($modalItemContent)
-  $modalItem.appendChild($modalItemDialog)
-
-  return $modalItem
+  $card.appendChild($cardBody)
+  return $card
 }
 
 function getObject(catalog, itemID) {
