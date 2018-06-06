@@ -126,9 +126,10 @@ function renderGridCatalog(catalog) {
   var $gridContainer = document.createElement('div')
   $gridContainer.classList.add('container')
 
-  var $gridHeader = document.createElement('h1')
-  $gridHeader.textContent = 'Jamazon'
-  $gridContainer.appendChild($gridHeader)
+  var $renderHeader = document.createElement('h1')
+  $renderHeader.classList.add('header-position')
+  $renderHeader.textContent = 'Jamazon'
+  $gridContainer.appendChild($renderHeader)
 
   var $gridRow = document.createElement('div')
   $gridRow.classList.add('row')
@@ -157,26 +158,34 @@ function showView(view) {
 }
 
 function renderAppState(catalog) {
+  var $renderCart = document.querySelector('.container-cart')
   showView(app.view)
+
   if (app.view === 'catalog') {
     var $appendGrid = document.querySelector("[data-view='catalog']")
     $appendGrid.appendChild(renderGridCatalog(catalog))
   }
   if (app.view === 'details') {
     var $appendDetail = document.querySelector("[data-view='details']")
+    var $renderHeader = document.createElement('h1')
+    $renderHeader.classList.add('header-position')
+    $renderHeader.textContent = 'Jamazon'
+    $appendDetail.appendChild($renderHeader)
     $appendDetail.appendChild(renderItemDetails(app.details.item))
   }
+  $renderCart.innerHTML = ''
+  $renderCart.appendChild(renderCart(app.cart))
 }
 
 function renderCart(app) {
   var $cart = document.createElement('div')
   $cart.classList.add('cart')
 
-  var $cartHeader = document.createElement('h5')
+  var $cartHeader = document.createElement('span')
   $cartHeader.textContent = 'Cart'
   $cart.appendChild($cartHeader)
 
-  var $cartNumber = document.createElement('h5')
+  var $cartNumber = document.createElement('span')
   $cartNumber.textContent = '(' + app.item.length + ')'
   $cart.appendChild($cartNumber)
 
