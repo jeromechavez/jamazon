@@ -144,6 +144,37 @@ function renderGridCatalog(catalog) {
   return $gridContainer
 }
 
+function renderCartSummary(cart) {
+  var $cartContainer = document.createElement('div')
+  $cartContainer.classList.add('container')
+
+  var $cartSummaryHeader = document.createElement('h1')
+  $cartSummaryHeader.classList.add('header-position')
+  $cartSummaryHeader.textContent = 'Cart'
+  $cartContainer.appendChild($cartSummaryHeader)
+
+  cart.item.forEach(function (object, i) {
+    let $cartObject = renderCartItem(cart.item[i])
+    $cartContainer.appendChild($cartObject)
+  })
+
+  var $cartTotal = document.createElement('h4')
+  $cartTotal.classList.add('card-title')
+  $cartTotal.textContent = 'Total: ' + cart.item.length + ' items'
+  $cartContainer.appendChild($cartTotal)
+
+  let $cartPriceTotal = 0
+  cart.item.forEach(function (object, i) {
+    $cartPriceTotal += cart.item[i].price
+  })
+
+  var $cartSummaryTotalPrice = document.createElement('h4')
+  $cartSummaryTotalPrice.textContent = 'Total: $' + $cartPriceTotal
+  $cartContainer.appendChild($cartSummaryTotalPrice)
+
+  return $cartContainer
+}
+
 function showView(view) {
   var $catalogView = document.querySelector("[data-view='catalog']")
   var $detailsView = document.querySelector("[data-view='details']")
