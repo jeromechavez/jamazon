@@ -144,6 +144,42 @@ function renderGridCatalog(catalog) {
   return $gridContainer
 }
 
+function renderCartItem(cart) {
+  var $cartItem = document.createElement('div')
+  $cartItem.classList.add('card', 'w-50')
+
+  var $cartRow = document.createElement('div')
+  $cartRow.classList.add('row')
+
+  var $cartImage = document.createElement('img')
+  $cartImage.classList.add('cart-image')
+  $cartImage.setAttribute('src', cart.imageUrl)
+  $cartRow.appendChild($cartImage)
+
+  var $cartItemBody = document.createElement('div')
+  $cartItemBody.classList.add('card-body')
+
+  var $cartItemName = document.createElement('h5')
+  $cartItemName.classList.add('card-title')
+  $cartItemName.textContent = cart.name
+
+  var $cartItemBrand = document.createElement('h6')
+  $cartItemBrand.classList.add('card-text', 'cart-brand')
+  $cartItemBrand.textContent = 'Brand: ' + cart.brand
+
+  var $cartItemPrice = document.createElement('h5')
+  $cartItemPrice.classList.add('card-text', 'cart-price')
+  $cartItemPrice.textContent = '$' + cart.price
+
+  $cartItemBody.appendChild($cartItemName)
+  $cartItemBody.appendChild($cartItemBrand)
+  $cartItemBody.appendChild($cartItemPrice)
+
+  $cartRow.appendChild($cartItemBody)
+  $cartItem.appendChild($cartRow)
+  return $cartItem
+}
+
 function renderCartSummary(cart) {
   var $cartContainer = document.createElement('div')
   $cartContainer.classList.add('container')
@@ -178,6 +214,12 @@ function renderCartSummary(cart) {
   $continueShop.textContent = 'Continue Shopping'
   $cartContainer.appendChild($continueShop)
 
+  var $checkout = document.createElement('button')
+  $checkout.classList.add('button')
+  $checkout.setAttribute('id', 'btn-checkout')
+  $checkout.textContent = 'Checkout'
+  $cartContainer.appendChild($checkout)
+
   return $cartContainer
 }
 
@@ -185,26 +227,39 @@ function showView(view) {
   var $catalogView = document.querySelector("[data-view='catalog']")
   var $detailsView = document.querySelector("[data-view='details']")
   var $cartView = document.querySelector("[data-view='cart']")
+  var $checkoutView = document.querySelector("[data-view='checkout']")
   if (view === 'details') {
     $catalogView.classList.add('hidden')
     $detailsView.classList.remove('hidden')
     $cartView.classList.add('hidden')
+    $checkoutView.classList.add('hidden')
   }
   else if (view === 'catalog') {
     $catalogView.classList.remove('hidden')
     $detailsView.classList.add('hidden')
     $cartView.classList.add('hidden')
+    $checkoutView.classList.add('hidden')
   }
   else if (view === 'cart') {
     $cartView.classList.remove('hidden')
     $catalogView.classList.add('hidden')
     $detailsView.classList.add('hidden')
+    $checkoutView.classList.add('hidden')
+  }
+  else if (view === 'checkout') {
+    $checkoutView.classList.remove('hidden')
+    $catalogView.classList.add('hidden')
+    $detailsView.classList.add('hidden')
+    $cartView.classList.add('hidden')
   }
 }
 
 function renderAppState(catalog) {
   var $renderCart = document.querySelector('.container-cart')
   var $renderHeader = document.createElement('h1')
+  $renderHeader.classList.add('header-position')
+  $renderHeader.textContent = 'Jamazon'
+
   showView(app.view)
 
   if (app.view === 'catalog') {
@@ -215,18 +270,20 @@ function renderAppState(catalog) {
   else if (app.view === 'details') {
     var $appendDetail = document.querySelector("[data-view='details']")
     $appendDetail.innerHTML = ''
-    $renderHeader.classList.add('header-position')
-    $renderHeader.textContent = 'Jamazon'
     $appendDetail.appendChild($renderHeader)
     $appendDetail.appendChild(renderItemDetails(app.details.item))
   }
   else if (app.view === 'cart') {
     var $appendCart = document.querySelector("[data-view='cart']")
     $appendCart.innerHTML = ''
-    $renderHeader.classList.add('header-position')
-    $renderHeader.textContent = 'Jamazon'
     $appendCart.appendChild($renderHeader)
     $appendCart.appendChild(renderCartSummary(app.cart))
+  }
+  else if (app.view === 'checkout') {
+    var $appendCheckout = document.querySelector("[data-view='checkout']")
+    $appendCheckout.innerHTML = ''
+    $appendCheckout.appendChild($renderHeader)
+    $appendCheckout.appendChild(renderCheckout(app.cart))
   }
   $renderCart.innerHTML = ''
   $renderCart.appendChild(renderCart(app.cart.item))
@@ -308,40 +365,89 @@ function getObject(catalog, itemID) {
   return catalog.filter(item => item.itemId === itemID)[0]
 }
 
-function renderCartItem(cart) {
-  var $cartItem = document.createElement('div')
-  $cartItem.classList.add('card', 'w-50')
+function renderCheckout(cart) {
+  var $checkoutContainer = document.createElement('div')
+  $checkoutContainer.classList.add('container-checkout')
 
-  var $cartRow = document.createElement('div')
-  $cartRow.classList.add('row')
+  var $checkoutHeader = document.createElement('h2')
+  $checkoutHeader.classList.add('header-position', 'cart-header')
+  $checkoutHeader.textContent = 'Checkout'
+  $checkoutContainer.appendChild($checkoutHeader)
 
-  var $cartImage = document.createElement('img')
-  $cartImage.classList.add('cart-image')
-  $cartImage.setAttribute('src', cart.imageUrl)
-  $cartRow.appendChild($cartImage)
+  var $checkoutForm = document.createElement('form')
 
-  var $cartItemBody = document.createElement('div')
-  $cartItemBody.classList.add('card-body')
+  var $nameCol = document.createElement('div')
+  $nameCol.classList.add('col')
 
-  var $cartItemName = document.createElement('h5')
-  $cartItemName.classList.add('card-title')
-  $cartItemName.textContent = cart.name
+  var $nameRow = document.createElement('div')
+  $nameRow.classList.add('form-row')
+  var $nameLabel = document.createElement('label')
+  $nameLabel.textContent = 'Name'
+  $nameRow.appendChild($nameLabel)
+  var $nameInput = document.createElement('input')
+  $nameInput.setAttribute('type', 'text')
+  $nameInput.classList.add('form-control')
+  $nameInput.setAttribute('placeholder', 'Name')
+  $nameRow.appendChild($nameInput)
+  $nameCol.appendChild($nameRow)
+  $checkoutForm.appendChild($nameCol)
 
-  var $cartItemBrand = document.createElement('h6')
-  $cartItemBrand.classList.add('card-text', 'cart-brand')
-  $cartItemBrand.textContent = 'Brand: ' + cart.brand
+  var $addCol = document.createElement('div')
+  $addCol.classList.add('col')
 
-  var $cartItemPrice = document.createElement('h5')
-  $cartItemPrice.classList.add('card-text', 'cart-price')
-  $cartItemPrice.textContent = '$' + cart.price
+  var $addressRow = document.createElement('div')
+  $addressRow.classList.add('form-row')
+  var $addressLabel = document.createElement('label')
+  $addressLabel.textContent = 'Address'
+  $addressRow.appendChild($addressLabel)
+  var $addressInput = document.createElement('input')
+  $addressInput.setAttribute('type', 'text')
+  $addressInput.classList.add('form-control')
+  $addressInput.setAttribute('placeHolder', '1234 Main St')
+  $addressRow.appendChild($addressInput)
+  $addCol.appendChild($addressRow)
+  $checkoutForm.appendChild($addCol)
 
-  $cartItemBody.appendChild($cartItemName)
-  $cartItemBody.appendChild($cartItemBrand)
-  $cartItemBody.appendChild($cartItemPrice)
+  var $credCol = document.createElement('div')
+  $credCol.classList.add('col')
 
-  $cartRow.appendChild($cartItemBody)
-  $cartItem.appendChild($cartRow)
-  return $cartItem
+  var $creditCardRow = document.createElement('div')
+  $creditCardRow.classList.add('form-row')
+  var $creditCardLabel = document.createElement('label')
+  $creditCardLabel.textContent = 'Credit Card'
+  $creditCardRow.appendChild($creditCardLabel)
+  var $creditCardInput = document.createElement('input')
+  $creditCardInput.setAttribute('type', 'text')
+  $creditCardInput.classList.add('form-control')
+  $creditCardInput.setAttribute('placeHolder', '1234 5678 1234 5678')
+  $creditCardRow.appendChild($creditCardInput)
+  $credCol.appendChild($creditCardRow)
+  $checkoutForm.appendChild($credCol)
+
+  var $submitOrder = document.createElement('button')
+  $submitOrder.classList.add('button', 'submit-button')
+  $submitOrder.setAttribute('id', 'btn-submit')
+  $submitOrder.textContent = 'Submit Order'
+  $checkoutForm.appendChild($submitOrder)
+
+  $checkoutContainer.appendChild($checkoutForm)
+
+  var $checkoutTotalItems = document.createElement('h4')
+  $checkoutTotalItems.classList.add('checkout-items')
+  $checkoutTotalItems.textContent = 'Total: ' + cart.item.length + ' items'
+  $checkoutContainer.appendChild($checkoutTotalItems)
+
+  let $checkoutPriceTotal = 0
+  cart.item.forEach(function (object, i) {
+    $checkoutPriceTotal += cart.item[i].price
+  })
+
+  var $checkoutTotalPrice = document.createElement('h4')
+  $checkoutTotalPrice.classList.add('checkout-price')
+  $checkoutTotalPrice.textContent = 'Total: $' + $checkoutPriceTotal
+  $checkoutContainer.appendChild($checkoutTotalPrice)
+
+  return $checkoutContainer
 }
 
 renderAppState(app)
@@ -381,4 +487,14 @@ $cartView.addEventListener('click', (event) => {
     app.view = 'catalog'
     renderAppState(app)
   }
+  else if (event.target.id === 'btn-checkout') {
+    app.view = 'checkout'
+    renderAppState(app)
+  }
+})
+
+var $checkoutView = document.querySelector("[data-view='checkout']")
+$checkoutView.addEventListener('submit', (event) => {
+  alert('Order Received! Thank you for your order!')
+  event.preventDefault()
 })

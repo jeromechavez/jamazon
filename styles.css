@@ -77,3 +77,22 @@ h1 {
   height: 100px;
   margin-left: 20%;
 }
+
+.nav-item:hover {
+  color: black;
+  background-color: #cfc;
+}
+
+.container-checkout {
+  text-align: left;
+  margin: auto 20%;
+}
+
+#btn-submit {
+  color: red;
+  margin-top: 5%;
+}
+
+.checkout-items {
+  margin-top: 5%;
+}
