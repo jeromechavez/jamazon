@@ -46,14 +46,34 @@ h1 {
 .container-cart {
   position: absolute;
   right: 10%;
-  margin-top: 5%;
+  margin-top: 4%;
 }
 
 .header-position {
-  margin-left: -10%;
-  margin-right: -10%;
+  margin-left: -5%;
+  margin-right: -5%;
 }
 
 .button {
   margin: auto 1%;
+}
+
+.cart-brand {
+  font-style: italic;
+}
+
+.cart-price {
+  color: red;
+}
+
+.cart-header {
+  border-bottom: solid 2px black;
+  margin-top: 5%;
+  text-align: center;
+}
+
+.cart-image {
+  width: 100px;
+  height: 100px;
+  margin-left: 20%;
 }
