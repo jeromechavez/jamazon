@@ -390,7 +390,7 @@ function renderCheckout(cart) {
   $nameInput.setAttribute('placeholder', 'Name')
   $nameRow.appendChild($nameInput)
   $nameCol.appendChild($nameRow)
-  $checkoutContainer.appendChild($nameCol)
+  $checkoutForm.appendChild($nameCol)
 
   var $addCol = document.createElement('div')
   $addCol.classList.add('col')
@@ -406,7 +406,7 @@ function renderCheckout(cart) {
   $addressInput.setAttribute('placeHolder', '1234 Main St')
   $addressRow.appendChild($addressInput)
   $addCol.appendChild($addressRow)
-  $checkoutContainer.appendChild($addCol)
+  $checkoutForm.appendChild($addCol)
 
   var $credCol = document.createElement('div')
   $credCol.classList.add('col')
@@ -422,7 +422,15 @@ function renderCheckout(cart) {
   $creditCardInput.setAttribute('placeHolder', '1234 5678 1234 5678')
   $creditCardRow.appendChild($creditCardInput)
   $credCol.appendChild($creditCardRow)
-  $checkoutContainer.appendChild($credCol)
+  $checkoutForm.appendChild($credCol)
+
+  var $submitOrder = document.createElement('button')
+  $submitOrder.classList.add('button', 'submit-button')
+  $submitOrder.setAttribute('id', 'btn-submit')
+  $submitOrder.textContent = 'Submit Order'
+  $checkoutForm.appendChild($submitOrder)
+
+  $checkoutContainer.appendChild($checkoutForm)
 
   var $checkoutTotalItems = document.createElement('h4')
   $checkoutTotalItems.classList.add('checkout-items')
@@ -438,12 +446,6 @@ function renderCheckout(cart) {
   $checkoutTotalPrice.classList.add('checkout-price')
   $checkoutTotalPrice.textContent = 'Total: $' + $checkoutPriceTotal
   $checkoutContainer.appendChild($checkoutTotalPrice)
-
-  var $submitOrder = document.createElement('button')
-  $submitOrder.classList.add('button')
-  $submitOrder.setAttribute('id', 'btn-submit')
-  $submitOrder.textContent = 'Submit Order'
-  $checkoutContainer.appendChild($submitOrder)
 
   return $checkoutContainer
 }
@@ -492,8 +494,7 @@ $cartView.addEventListener('click', (event) => {
 })
 
 var $checkoutView = document.querySelector("[data-view='checkout']")
-$checkoutView.addEventListener('click', (event) => {
-  if (event.target.id === 'btn-submit') {
-    window.alert('Order Received! Thank you for your order! ')
-  }
+$checkoutView.addEventListener('submit', (event) => {
+  alert('Order Received! Thank you for your order!')
+  event.preventDefault()
 })
