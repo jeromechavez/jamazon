@@ -144,6 +144,42 @@ function renderGridCatalog(catalog) {
   return $gridContainer
 }
 
+function renderCartItem(cart) {
+  var $cartItem = document.createElement('div')
+  $cartItem.classList.add('card', 'w-50')
+
+  var $cartRow = document.createElement('div')
+  $cartRow.classList.add('row')
+
+  var $cartImage = document.createElement('img')
+  $cartImage.classList.add('cart-image')
+  $cartImage.setAttribute('src', cart.imageUrl)
+  $cartRow.appendChild($cartImage)
+
+  var $cartItemBody = document.createElement('div')
+  $cartItemBody.classList.add('card-body')
+
+  var $cartItemName = document.createElement('h5')
+  $cartItemName.classList.add('card-title')
+  $cartItemName.textContent = cart.name
+
+  var $cartItemBrand = document.createElement('h6')
+  $cartItemBrand.classList.add('card-text', 'cart-brand')
+  $cartItemBrand.textContent = 'Brand: ' + cart.brand
+
+  var $cartItemPrice = document.createElement('h5')
+  $cartItemPrice.classList.add('card-text', 'cart-price')
+  $cartItemPrice.textContent = '$' + cart.price
+
+  $cartItemBody.appendChild($cartItemName)
+  $cartItemBody.appendChild($cartItemBrand)
+  $cartItemBody.appendChild($cartItemPrice)
+
+  $cartRow.appendChild($cartItemBody)
+  $cartItem.appendChild($cartRow)
+  return $cartItem
+}
+
 function renderCartSummary(cart) {
   var $cartContainer = document.createElement('div')
   $cartContainer.classList.add('container')
@@ -191,26 +227,39 @@ function showView(view) {
   var $catalogView = document.querySelector("[data-view='catalog']")
   var $detailsView = document.querySelector("[data-view='details']")
   var $cartView = document.querySelector("[data-view='cart']")
+  var $checkoutView = document.querySelector("[data-view='checkout']")
   if (view === 'details') {
     $catalogView.classList.add('hidden')
     $detailsView.classList.remove('hidden')
     $cartView.classList.add('hidden')
+    $checkoutView.classList.add('hidden')
   }
   else if (view === 'catalog') {
     $catalogView.classList.remove('hidden')
     $detailsView.classList.add('hidden')
     $cartView.classList.add('hidden')
+    $checkoutView.classList.add('hidden')
   }
   else if (view === 'cart') {
     $cartView.classList.remove('hidden')
     $catalogView.classList.add('hidden')
     $detailsView.classList.add('hidden')
+    $checkoutView.classList.add('hidden')
+  }
+  else if (view === 'checkout') {
+    $checkoutView.classList.remove('hidden')
+    $catalogView.classList.add('hidden')
+    $detailsView.classList.add('hidden')
+    $cartView.classList.add('hidden')
   }
 }
 
 function renderAppState(catalog) {
   var $renderCart = document.querySelector('.container-cart')
   var $renderHeader = document.createElement('h1')
+  $renderHeader.classList.add('header-position')
+  $renderHeader.textContent = 'Jamazon'
+
   showView(app.view)
 
   if (app.view === 'catalog') {
@@ -221,18 +270,19 @@ function renderAppState(catalog) {
   else if (app.view === 'details') {
     var $appendDetail = document.querySelector("[data-view='details']")
     $appendDetail.innerHTML = ''
-    $renderHeader.classList.add('header-position')
-    $renderHeader.textContent = 'Jamazon'
     $appendDetail.appendChild($renderHeader)
     $appendDetail.appendChild(renderItemDetails(app.details.item))
   }
   else if (app.view === 'cart') {
     var $appendCart = document.querySelector("[data-view='cart']")
     $appendCart.innerHTML = ''
-    $renderHeader.classList.add('header-position')
-    $renderHeader.textContent = 'Jamazon'
     $appendCart.appendChild($renderHeader)
     $appendCart.appendChild(renderCartSummary(app.cart))
+  }
+  else if (app.view === 'cart') {
+    var $appendCheckout = document.querySelector("[data-view='checkout']")
+    $appendCheckout.innerHTML = ''
+    $appendCart.appendChild($renderHeader)
   }
   $renderCart.innerHTML = ''
   $renderCart.appendChild(renderCart(app.cart.item))
@@ -314,42 +364,6 @@ function getObject(catalog, itemID) {
   return catalog.filter(item => item.itemId === itemID)[0]
 }
 
-function renderCartItem(cart) {
-  var $cartItem = document.createElement('div')
-  $cartItem.classList.add('card', 'w-50')
-
-  var $cartRow = document.createElement('div')
-  $cartRow.classList.add('row')
-
-  var $cartImage = document.createElement('img')
-  $cartImage.classList.add('cart-image')
-  $cartImage.setAttribute('src', cart.imageUrl)
-  $cartRow.appendChild($cartImage)
-
-  var $cartItemBody = document.createElement('div')
-  $cartItemBody.classList.add('card-body')
-
-  var $cartItemName = document.createElement('h5')
-  $cartItemName.classList.add('card-title')
-  $cartItemName.textContent = cart.name
-
-  var $cartItemBrand = document.createElement('h6')
-  $cartItemBrand.classList.add('card-text', 'cart-brand')
-  $cartItemBrand.textContent = 'Brand: ' + cart.brand
-
-  var $cartItemPrice = document.createElement('h5')
-  $cartItemPrice.classList.add('card-text', 'cart-price')
-  $cartItemPrice.textContent = '$' + cart.price
-
-  $cartItemBody.appendChild($cartItemName)
-  $cartItemBody.appendChild($cartItemBrand)
-  $cartItemBody.appendChild($cartItemPrice)
-
-  $cartRow.appendChild($cartItemBody)
-  $cartItem.appendChild($cartRow)
-  return $cartItem
-}
-
 renderAppState(app)
 
 var $catalogView = document.querySelector("[data-view='catalog']")
@@ -385,6 +399,10 @@ var $cartView = document.querySelector("[data-view='cart']")
 $cartView.addEventListener('click', (event) => {
   if (event.target.id === 'btn-continue') {
     app.view = 'catalog'
+    renderAppState(app)
+  }
+  else if (event.target.id === 'btn-checkout') {
+    app.view = 'checkout'
     renderAppState(app)
   }
 })
