@@ -184,12 +184,9 @@ function renderCart(app) {
   $cart.classList.add('cart')
 
   var $cartHeader = document.createElement('span')
-  $cartHeader.textContent = 'Cart'
+  $cartHeader.classList.add('nav-item')
+  $cartHeader.textContent = 'Cart (' + app.item.length + ')'
   $cart.appendChild($cartHeader)
-
-  var $cartNumber = document.createElement('span')
-  $cartNumber.textContent = '(' + app.item.length + ')'
-  $cart.appendChild($cartNumber)
 
   return $cart
 }
@@ -256,6 +253,38 @@ function renderItemDetails(item) {
 
 function getObject(catalog, itemID) {
   return catalog.filter(item => item.itemId === itemID)[0]
+}
+
+function renderCartItem(cart) {
+  var $cartItem = document.createElement('div')
+  $cartItem.classList.add('card')
+
+  var $cartImage = document.createElement('img')
+  $cartImage.classList.add('cardImage')
+  $cartImage.setAttribute('src', cart.imageUrl)
+  $cartItem.appendChild($cartImage)
+
+  var $cartItemBody = document.createElement('div')
+  $cartItemBody.classList.add('card-body', 'w-75')
+
+  var $cartItemName = document.createElement('h5')
+  $cartItemName.classList.add('card-title')
+  $cartItemName.textContent = cart.name
+
+  var $cartItemBrand = document.createElement('h6')
+  $cartItemBrand.classList.add('card-text')
+  $cartItemBrand.textContent = cart.$cardBrand
+
+  var $cartItemPrice = document.createElement('h5')
+  $cartItemPrice.classList.add('card-text')
+  $cartItemPrice.textContent = '$' + cart.price
+
+  $cartItemBody.appendChild($cartItemName)
+  $cartItemBody.appendChild($cartItemBrand)
+  $cartItemBody.appendChild($cartItemPrice)
+
+  $cartItem.appendChild($cartItemBody)
+  return $cartItem
 }
 
 renderAppState(app)

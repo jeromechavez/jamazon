@@ -57,3 +57,8 @@ h1 {
 .button {
   margin: auto 1%;
 }
+
+.cardImage {
+  width: 75px;
+  height: 75px;
+}
