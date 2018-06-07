@@ -279,10 +279,11 @@ function renderAppState(catalog) {
     $appendCart.appendChild($renderHeader)
     $appendCart.appendChild(renderCartSummary(app.cart))
   }
-  else if (app.view === 'cart') {
+  else if (app.view === 'checkout') {
     var $appendCheckout = document.querySelector("[data-view='checkout']")
     $appendCheckout.innerHTML = ''
-    $appendCart.appendChild($renderHeader)
+    $appendCheckout.appendChild($renderHeader)
+    $appendCheckout.appendChild(renderCheckout(app.cart))
   }
   $renderCart.innerHTML = ''
   $renderCart.appendChild(renderCart(app.cart.item))
@@ -364,6 +365,89 @@ function getObject(catalog, itemID) {
   return catalog.filter(item => item.itemId === itemID)[0]
 }
 
+function renderCheckout(cart) {
+  var $checkoutContainer = document.createElement('div')
+  $checkoutContainer.classList.add('container-checkout')
+
+  var $checkoutHeader = document.createElement('h2')
+  $checkoutHeader.classList.add('header-position', 'cart-header')
+  $checkoutHeader.textContent = 'Checkout'
+  $checkoutContainer.appendChild($checkoutHeader)
+
+  var $checkoutForm = document.createElement('form')
+
+  var $nameCol = document.createElement('div')
+  $nameCol.classList.add('col')
+
+  var $nameRow = document.createElement('div')
+  $nameRow.classList.add('form-row')
+  var $nameLabel = document.createElement('label')
+  $nameLabel.textContent = 'Name'
+  $nameRow.appendChild($nameLabel)
+  var $nameInput = document.createElement('input')
+  $nameInput.setAttribute('type', 'text')
+  $nameInput.classList.add('form-control')
+  $nameInput.setAttribute('placeholder', 'Name')
+  $nameRow.appendChild($nameInput)
+  $nameCol.appendChild($nameRow)
+  $checkoutContainer.appendChild($nameCol)
+
+  var $addCol = document.createElement('div')
+  $addCol.classList.add('col')
+
+  var $addressRow = document.createElement('div')
+  $addressRow.classList.add('form-row')
+  var $addressLabel = document.createElement('label')
+  $addressLabel.textContent = 'Address'
+  $addressRow.appendChild($addressLabel)
+  var $addressInput = document.createElement('input')
+  $addressInput.setAttribute('type', 'text')
+  $addressInput.classList.add('form-control')
+  $addressInput.setAttribute('placeHolder', '1234 Main St')
+  $addressRow.appendChild($addressInput)
+  $addCol.appendChild($addressRow)
+  $checkoutContainer.appendChild($addCol)
+
+  var $credCol = document.createElement('div')
+  $credCol.classList.add('col')
+
+  var $creditCardRow = document.createElement('div')
+  $creditCardRow.classList.add('form-row')
+  var $creditCardLabel = document.createElement('label')
+  $creditCardLabel.textContent = 'Credit Card'
+  $creditCardRow.appendChild($creditCardLabel)
+  var $creditCardInput = document.createElement('input')
+  $creditCardInput.setAttribute('type', 'text')
+  $creditCardInput.classList.add('form-control')
+  $creditCardInput.setAttribute('placeHolder', '1234 5678 1234 5678')
+  $creditCardRow.appendChild($creditCardInput)
+  $credCol.appendChild($creditCardRow)
+  $checkoutContainer.appendChild($credCol)
+
+  var $checkoutTotalItems = document.createElement('h4')
+  $checkoutTotalItems.classList.add('checkout-items')
+  $checkoutTotalItems.textContent = 'Total: ' + cart.item.length + ' items'
+  $checkoutContainer.appendChild($checkoutTotalItems)
+
+  let $checkoutPriceTotal = 0
+  cart.item.forEach(function (object, i) {
+    $checkoutPriceTotal += cart.item[i].price
+  })
+
+  var $checkoutTotalPrice = document.createElement('h4')
+  $checkoutTotalPrice.classList.add('checkout-price')
+  $checkoutTotalPrice.textContent = 'Total: $' + $checkoutPriceTotal
+  $checkoutContainer.appendChild($checkoutTotalPrice)
+
+  var $submitOrder = document.createElement('button')
+  $submitOrder.classList.add('button')
+  $submitOrder.setAttribute('id', 'btn-submit')
+  $submitOrder.textContent = 'Submit Order'
+  $checkoutContainer.appendChild($submitOrder)
+
+  return $checkoutContainer
+}
+
 renderAppState(app)
 
 var $catalogView = document.querySelector("[data-view='catalog']")
@@ -404,5 +488,12 @@ $cartView.addEventListener('click', (event) => {
   else if (event.target.id === 'btn-checkout') {
     app.view = 'checkout'
     renderAppState(app)
+  }
+})
+
+var $checkoutView = document.querySelector("[data-view='checkout']")
+$checkoutView.addEventListener('click', (event) => {
+  if (event.target.id === 'btn-submit') {
+    window.alert('Order Received! Thank you for your order! ')
   }
 })
