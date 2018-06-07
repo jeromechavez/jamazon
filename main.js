@@ -244,6 +244,12 @@ function renderItemDetails(item) {
   $addToCart.textContent = 'Add To Cart'
   $cardBody.appendChild($addToCart)
 
+  var $continueShop = document.createElement('button')
+  $continueShop.classList.add('button')
+  $continueShop.setAttribute('id', 'btn-continue')
+  $continueShop.textContent = 'Back'
+  $cardBody.appendChild($continueShop)
+
   $card.appendChild($cardBody)
   return $card
 }
@@ -254,8 +260,8 @@ function getObject(catalog, itemID) {
 
 renderAppState(app)
 
-var $container = document.querySelector('.container')
-$container.addEventListener('click', (event) => {
+var $catalogView = document.querySelector("[data-view='catalog']")
+$catalogView.addEventListener('click', (event) => {
   var $closestItem = event.target.closest('.card')
   var itemClicked = parseInt($closestItem.dataset.itemId, 16)
   if ($closestItem) {
@@ -265,10 +271,14 @@ $container.addEventListener('click', (event) => {
   }
 })
 
-var $detailAddCart = document.querySelector("[data-view='details']")
-$detailAddCart.addEventListener('click', function (e) {
+var $detailView = document.querySelector("[data-view='details']")
+$detailView.addEventListener('click', function (e) {
   if (e.target.id === 'btn-add') {
     app.cart.item.push(app.details.item)
+    renderAppState(app)
+  }
+  else if (e.target.id === 'btn-continue') {
+    app.view = 'catalog'
     renderAppState(app)
   }
 })
