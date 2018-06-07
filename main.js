@@ -148,8 +148,8 @@ function renderCartSummary(cart) {
   var $cartContainer = document.createElement('div')
   $cartContainer.classList.add('container')
 
-  var $cartSummaryHeader = document.createElement('h1')
-  $cartSummaryHeader.classList.add('header-position')
+  var $cartSummaryHeader = document.createElement('h2')
+  $cartSummaryHeader.classList.add('header-position', 'cart-header')
   $cartSummaryHeader.textContent = 'Cart'
   $cartContainer.appendChild($cartSummaryHeader)
 
@@ -172,24 +172,39 @@ function renderCartSummary(cart) {
   $cartSummaryTotalPrice.textContent = 'Total: $' + $cartPriceTotal
   $cartContainer.appendChild($cartSummaryTotalPrice)
 
+  var $continueShop = document.createElement('button')
+  $continueShop.classList.add('button')
+  $continueShop.setAttribute('id', 'btn-continue')
+  $continueShop.textContent = 'Continue Shopping'
+  $cartContainer.appendChild($continueShop)
+
   return $cartContainer
 }
 
 function showView(view) {
   var $catalogView = document.querySelector("[data-view='catalog']")
   var $detailsView = document.querySelector("[data-view='details']")
+  var $cartView = document.querySelector("[data-view='cart']")
   if (view === 'details') {
     $catalogView.classList.add('hidden')
     $detailsView.classList.remove('hidden')
+    $cartView.classList.add('hidden')
   }
-  if (view === 'catalog') {
+  else if (view === 'catalog') {
     $catalogView.classList.remove('hidden')
+    $detailsView.classList.add('hidden')
+    $cartView.classList.add('hidden')
+  }
+  else if (view === 'cart') {
+    $cartView.classList.remove('hidden')
+    $catalogView.classList.add('hidden')
     $detailsView.classList.add('hidden')
   }
 }
 
 function renderAppState(catalog) {
   var $renderCart = document.querySelector('.container-cart')
+  var $renderHeader = document.createElement('h1')
   showView(app.view)
 
   if (app.view === 'catalog') {
@@ -197,26 +212,33 @@ function renderAppState(catalog) {
     $appendGrid.innerHTML = ''
     $appendGrid.appendChild(renderGridCatalog(catalog))
   }
-  if (app.view === 'details') {
+  else if (app.view === 'details') {
     var $appendDetail = document.querySelector("[data-view='details']")
-    var $renderHeader = document.createElement('h1')
     $appendDetail.innerHTML = ''
     $renderHeader.classList.add('header-position')
     $renderHeader.textContent = 'Jamazon'
     $appendDetail.appendChild($renderHeader)
     $appendDetail.appendChild(renderItemDetails(app.details.item))
   }
+  else if (app.view === 'cart') {
+    var $appendCart = document.querySelector("[data-view='cart']")
+    $appendCart.innerHTML = ''
+    $renderHeader.classList.add('header-position')
+    $renderHeader.textContent = 'Jamazon'
+    $appendCart.appendChild($renderHeader)
+    $appendCart.appendChild(renderCartSummary(app.cart))
+  }
   $renderCart.innerHTML = ''
-  $renderCart.appendChild(renderCart(app.cart))
+  $renderCart.appendChild(renderCart(app.cart.item))
 }
 
-function renderCart(app) {
+function renderCart(cart) {
   var $cart = document.createElement('div')
   $cart.classList.add('cart')
 
   var $cartHeader = document.createElement('span')
   $cartHeader.classList.add('nav-item')
-  $cartHeader.textContent = 'Cart (' + app.item.length + ')'
+  $cartHeader.textContent = 'Cart (' + cart.length + ')'
   $cart.appendChild($cartHeader)
 
   return $cart
@@ -288,33 +310,37 @@ function getObject(catalog, itemID) {
 
 function renderCartItem(cart) {
   var $cartItem = document.createElement('div')
-  $cartItem.classList.add('card')
+  $cartItem.classList.add('card', 'w-50')
+
+  var $cartRow = document.createElement('div')
+  $cartRow.classList.add('row')
 
   var $cartImage = document.createElement('img')
-  $cartImage.classList.add('cardImage')
+  $cartImage.classList.add('cart-image')
   $cartImage.setAttribute('src', cart.imageUrl)
-  $cartItem.appendChild($cartImage)
+  $cartRow.appendChild($cartImage)
 
   var $cartItemBody = document.createElement('div')
-  $cartItemBody.classList.add('card-body', 'w-75')
+  $cartItemBody.classList.add('card-body')
 
   var $cartItemName = document.createElement('h5')
   $cartItemName.classList.add('card-title')
   $cartItemName.textContent = cart.name
 
   var $cartItemBrand = document.createElement('h6')
-  $cartItemBrand.classList.add('card-text')
-  $cartItemBrand.textContent = cart.$cardBrand
+  $cartItemBrand.classList.add('card-text', 'cart-brand')
+  $cartItemBrand.textContent = 'Brand: ' + cart.brand
 
   var $cartItemPrice = document.createElement('h5')
-  $cartItemPrice.classList.add('card-text')
+  $cartItemPrice.classList.add('card-text', 'cart-price')
   $cartItemPrice.textContent = '$' + cart.price
 
   $cartItemBody.appendChild($cartItemName)
   $cartItemBody.appendChild($cartItemBrand)
   $cartItemBody.appendChild($cartItemPrice)
 
-  $cartItem.appendChild($cartItemBody)
+  $cartRow.appendChild($cartItemBody)
+  $cartItem.appendChild($cartRow)
   return $cartItem
 }
 
@@ -331,13 +357,27 @@ $catalogView.addEventListener('click', (event) => {
   }
 })
 
+var $cartSummaryView = document.querySelector('.container-cart')
+$cartSummaryView.addEventListener('click', (event) => {
+  app.view = 'cart'
+  renderAppState(app)
+})
+
 var $detailView = document.querySelector("[data-view='details']")
-$detailView.addEventListener('click', function (e) {
-  if (e.target.id === 'btn-add') {
+$detailView.addEventListener('click', (event) => {
+  if (event.target.id === 'btn-add') {
     app.cart.item.push(app.details.item)
     renderAppState(app)
   }
-  else if (e.target.id === 'btn-continue') {
+  else if (event.target.id === 'btn-continue') {
+    app.view = 'catalog'
+    renderAppState(app)
+  }
+})
+
+var $cartView = document.querySelector("[data-view='cart']")
+$cartView.addEventListener('click', (event) => {
+  if (event.target.id === 'btn-continue') {
     app.view = 'catalog'
     renderAppState(app)
   }

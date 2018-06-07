@@ -58,7 +58,21 @@ h1 {
   margin: auto 1%;
 }
 
-.cardImage {
-  width: 75px;
-  height: 75px;
+.cart-brand {
+  font-style: italic;
+}
+
+.cart-price {
+  color: red;
+}
+
+.cart-header {
+  text-align: left;
+  border-bottom: solid 2px black;
+}
+
+.cart-image {
+  width: 100px;
+  height: 100px;
+  margin-left: 20%;
 }
