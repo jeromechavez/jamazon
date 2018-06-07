@@ -178,6 +178,12 @@ function renderCartSummary(cart) {
   $continueShop.textContent = 'Continue Shopping'
   $cartContainer.appendChild($continueShop)
 
+  var $checkout = document.createElement('button')
+  $checkout.classList.add('button')
+  $checkout.setAttribute('id', 'btn-checkout')
+  $checkout.textContent = 'Checkout'
+  $cartContainer.appendChild($checkout)
+
   return $cartContainer
 }
 
