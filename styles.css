@@ -50,8 +50,8 @@ h1 {
 }
 
 .header-position {
-  margin-left: -10%;
-  margin-right: -10%;
+  margin-left: -5%;
+  margin-right: -5%;
 }
 
 .button {
@@ -67,8 +67,9 @@ h1 {
 }
 
 .cart-header {
-  text-align: left;
   border-bottom: solid 2px black;
+  margin-top: 5%;
+  text-align: center;
 }
 
 .cart-image {
