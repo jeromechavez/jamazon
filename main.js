@@ -96,7 +96,7 @@ var app = {
 
 function renderCatalogItem(item) {
   var $card = document.createElement('div')
-  $card.classList.add('card')
+  $card.classList.add('card', 'col-4')
   $card.setAttribute('style', 'width: 18rem')
   $card.setAttribute('data-item-id', item.itemId)
 
@@ -290,11 +290,11 @@ function renderAppState(catalog) {
 }
 
 function renderCart(cart) {
-  var $cart = document.createElement('div')
-  $cart.classList.add('cart')
+  var $cart = document.createElement('nav')
+  $cart.classList.add('nav-cart')
 
   var $cartHeader = document.createElement('span')
-  $cartHeader.classList.add('nav-item')
+  $cartHeader.classList.add('nav-text')
   $cartHeader.textContent = 'Cart (' + cart.length + ')'
   $cart.appendChild($cartHeader)
 

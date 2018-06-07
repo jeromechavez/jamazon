@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: gray;
+  background-color: black;
 }
 
 img {
@@ -13,6 +13,10 @@ img {
   height: auto;
   margin: 0 auto;
   padding: 5px;
+}
+
+.card-text {
+  background-color: green;
 }
 
 .card {
@@ -78,9 +82,13 @@ h1 {
   margin-left: 20%;
 }
 
-.nav-item:hover {
+.nav-text:hover {
   color: black;
   background-color: #cfc;
+}
+
+.nav-cart {
+  color: green;
 }
 
 .container-checkout {
