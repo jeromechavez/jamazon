@@ -131,6 +131,8 @@ function renderGridCatalog(catalog) {
   $renderHeader.textContent = 'Jamazon'
   $gridContainer.appendChild($renderHeader)
 
+  $gridContainer.appendChild(renderPriceSort())
+
   var $gridRow = document.createElement('div')
   $gridRow.classList.add('row')
 
@@ -301,6 +303,69 @@ function renderCart(cart) {
   return $cart
 }
 
+function compareValues(key, order = 'asc') {
+  return function (a, b) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      return 0
+    }
+
+    const varA = (typeof a[key] === 'string')
+      ? a[key].toUpperCase() : a[key]
+    const varB = (typeof b[key] === 'string')
+      ? b[key].toUpperCase() : b[key]
+
+    let comparison = 0
+    if (varA > varB) {
+      comparison = 1
+    }
+    else if (varA < varB) {
+      comparison = -1
+    }
+    return ((order === 'desc') ? (comparison * -1) : comparison
+    )
+  }
+}
+
+function renderPriceSort() {
+  var dropDownForm = document.createElement('form')
+  var dropDownContainer = document.createElement('div')
+  dropDownContainer.classList.add('form-group', 'w-25')
+
+  var dropDownGroup = document.createElement('select')
+  dropDownGroup.classList.add('form-control')
+  dropDownGroup.setAttribute('name', 'drop-down-sort')
+
+  var allView = document.createElement('option')
+  allView.textContent = 'Sort By'
+  dropDownGroup.appendChild(allView)
+  allView.setAttribute('value', 'unsorted')
+  var lowToHighOpt = document.createElement('option')
+  lowToHighOpt.textContent = 'Price: Low to High'
+  lowToHighOpt.setAttribute('value', 'low-high')
+
+  var highToLowOpt = document.createElement('option')
+  highToLowOpt.textContent = 'Price: High to Low'
+  highToLowOpt.setAttribute('value', 'high-low')
+
+  dropDownGroup.appendChild(lowToHighOpt)
+  dropDownGroup.appendChild(highToLowOpt)
+
+  dropDownContainer.appendChild(dropDownGroup)
+  dropDownForm.appendChild(dropDownContainer)
+
+  return dropDownForm
+}
+
+function sortPrice(app, number) {
+  if (number === 0) {
+    app.catalog.items = app.catalog.items.sort(compareValues('price'))
+  }
+  else if (number === 1) {
+    app.catalog.items = app.catalog.items.sort(compareValues('price', 'desc'))
+  }
+  return app
+}
+
 function renderItemDetails(item) {
   var $card = document.createElement('div')
   $card.classList.add('card')
@@ -455,13 +520,26 @@ renderAppState(app)
 var $catalogView = document.querySelector("[data-view='catalog']")
 $catalogView.addEventListener('click', (event) => {
   var $closestItem = event.target.closest('.card')
-  var itemClicked = parseInt($closestItem.dataset.itemId, 16)
   if ($closestItem) {
+    var itemClicked = parseInt($closestItem.dataset.itemId, 16)
     app.view = 'details'
     app.details.item = getObject(app.catalog.items, itemClicked)
     renderAppState(app)
   }
 })
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelector("[data-view='catalog']").onchange = changeEventHandler
+}, false)
+
+function changeEventHandler(event) {
+  if (event.target.value === 'low-high') {
+    renderAppState(sortPrice(app, 0))
+  }
+  else if (event.target.value === 'high-low') {
+    renderAppState(sortPrice(app, 1))
+  }
+}
 
 var $cartSummaryView = document.querySelector('.container-cart')
 $cartSummaryView.addEventListener('click', (event) => {
