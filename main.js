@@ -131,6 +131,8 @@ function renderGridCatalog(catalog) {
   $renderHeader.textContent = 'Jamazon'
   $gridContainer.appendChild($renderHeader)
 
+  $gridContainer.appendChild(renderPriceSort())
+
   var $gridRow = document.createElement('div')
   $gridRow.classList.add('row')
 
@@ -299,6 +301,62 @@ function renderCart(cart) {
   $cart.appendChild($cartHeader)
 
   return $cart
+}
+
+function compareValues(key, order = 'asc') {
+  return function (a, b) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      return 0
+    }
+
+    const varA = (typeof a[key] === 'string')
+      ? a[key].toUpperCase() : a[key]
+    const varB = (typeof b[key] === 'string')
+      ? b[key].toUpperCase() : b[key]
+
+    let comparison = 0
+    if (varA > varB) {
+      comparison = 1
+    }
+    else if (varA < varB) {
+      comparison = -1
+    }
+    return ((order === 'desc') ? (comparison * -1) : comparison
+    )
+  }
+}
+
+function renderPriceSort() {
+  var dropDownForm = document.createElement('form')
+  var dropDownContainer = document.createElement('div')
+  dropDownContainer.classList.add('form-group', 'w-25')
+
+  var dropDownLabel = document.createElement('label')
+  dropDownLabel.textContent = 'Sort By:'
+  dropDownContainer.appendChild(dropDownLabel)
+
+  var dropDownGroup = document.createElement('select')
+  dropDownGroup.classList.add('form-control')
+
+  var allView = document.createElement('option')
+  allView.textContent = 'All'
+  dropDownGroup.appendChild(allView)
+  allView.setAttribute('id', 'unsorted')
+  var lowToHighOpt = document.createElement('option')
+  lowToHighOpt.textContent = 'Price: Low to High'
+  lowToHighOpt.setAttribute('id', 'low-high')
+
+  var highToLowOpt = document.createElement('option')
+  highToLowOpt.textContent = 'Price: High to Low'
+  highToLowOpt.setAttribute('id', 'high-low')
+
+  dropDownGroup.appendChild(lowToHighOpt)
+  dropDownGroup.appendChild(highToLowOpt)
+
+  dropDownContainer.appendChild(dropDownGroup)
+  dropDownForm.appendChild(dropDownContainer)
+
+  return dropDownForm
 }
 
 function renderItemDetails(item) {
