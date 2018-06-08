@@ -2,10 +2,6 @@
   text-align: center;
 }
 
-body {
-  background-color: black;
-}
-
 img {
   max-width: 200px;
   max-height: 200px;
@@ -15,28 +11,11 @@ img {
   padding: 5px;
 }
 
-.card-text {
-  background-color: green;
-}
-
-.card {
-  border: solid 3px green;
-  box-shadow: 5px 2px 8px #555;
-  margin: 5px 5px;
-  float: left;
-}
-
 h1 {
   font-family: 'Bowlby One SC', cursive;
   font-size: 75px;
-  color: green;
-  border-bottom: solid 5px green;
-}
-
-.row {
-  position: relative;
-  float: left;
-  flex-wrap: wrap;
+  color: rgb(44, 143, 242);
+  border-bottom: solid 5px rgb(44, 143, 242);
 }
 
 .hidden {
@@ -44,7 +23,7 @@ h1 {
 }
 
 #centerDetail {
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 .container-cart {
@@ -84,11 +63,7 @@ h1 {
 
 .nav-text:hover {
   color: black;
-  background-color: #cfc;
-}
-
-.nav-cart {
-  color: green;
+  background-color: rgb(44, 143, 242);
 }
 
 .container-checkout {

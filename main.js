@@ -96,7 +96,7 @@ var app = {
 
 function renderCatalogItem(item) {
   var $card = document.createElement('div')
-  $card.classList.add('card', 'col-4')
+  $card.classList.add('card', 'col-3')
   $card.setAttribute('style', 'width: 18rem')
   $card.setAttribute('data-item-id', item.itemId)
 
