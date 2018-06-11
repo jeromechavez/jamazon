@@ -110,14 +110,19 @@ function renderCatalogItem(item) {
   var $cardBodyHeader = document.createElement('h5')
   $cardBodyHeader.classList.add('card-title')
   $cardBodyHeader.textContent = item.name
+
+  var $cardFooter = document.createElement('div')
+  $cardFooter.classList.add('card-footer')
+
   var $cardBodyPrice = document.createElement('h6')
   $cardBodyPrice.classList.add('card-text')
-  $cardBodyPrice.textContent = '$' + item.price
+  $cardBodyPrice.textContent = '$' + item.price.toFixed(2)
+  $cardFooter.appendChild($cardBodyPrice)
 
   $cardBody.appendChild($cardBodyHeader)
-  $cardBody.appendChild($cardBodyPrice)
 
   $card.appendChild($cardBody)
+  $card.appendChild($cardFooter)
 
   return $card
 }
@@ -171,7 +176,7 @@ function renderCartItem(cart) {
 
   var $cartItemPrice = document.createElement('h5')
   $cartItemPrice.classList.add('card-text', 'cart-price')
-  $cartItemPrice.textContent = '$' + cart.price
+  $cartItemPrice.textContent = '$' + cart.price.toFixed(2)
 
   $cartItemBody.appendChild($cartItemName)
   $cartItemBody.appendChild($cartItemBrand)
@@ -207,7 +212,7 @@ function renderCartSummary(cart) {
   })
 
   var $cartSummaryTotalPrice = document.createElement('h4')
-  $cartSummaryTotalPrice.textContent = 'Total: $' + $cartPriceTotal
+  $cartSummaryTotalPrice.textContent = 'Total: $' + $cartPriceTotal.toFixed(2)
   $cartContainer.appendChild($cartSummaryTotalPrice)
 
   var $continueShop = document.createElement('button')
@@ -407,7 +412,7 @@ function renderItemDetails(item) {
 
   var $cardPrice = document.createElement('h4')
   $cardPrice.classList.add('card-title')
-  $cardPrice.textContent = '$' + item.price
+  $cardPrice.textContent = '$' + item.price.toFixed(2)
   $cardBody.appendChild($cardPrice)
 
   var $addToCart = document.createElement('button')
@@ -509,7 +514,7 @@ function renderCheckout(cart) {
 
   var $checkoutTotalPrice = document.createElement('h4')
   $checkoutTotalPrice.classList.add('checkout-price')
-  $checkoutTotalPrice.textContent = 'Total: $' + $checkoutPriceTotal
+  $checkoutTotalPrice.textContent = 'Total: $' + $checkoutPriceTotal.toFixed(2)
   $checkoutContainer.appendChild($checkoutTotalPrice)
 
   return $checkoutContainer
