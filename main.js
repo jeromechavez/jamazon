@@ -136,7 +136,13 @@ function renderGridCatalog(catalog) {
   $renderHeader.textContent = 'Jamazon'
   $gridContainer.appendChild($renderHeader)
 
-  $gridContainer.appendChild(renderPriceSort())
+  var sortingRow = document.createElement('div')
+  sortingRow.classList.add('row')
+
+  sortingRow.appendChild(renderPriceSort())
+  sortingRow.appendChild(renderBrandSort())
+
+  $gridContainer.appendChild(sortingRow)
 
   var $gridRow = document.createElement('div')
   $gridRow.classList.add('row')
@@ -334,7 +340,7 @@ function compareValues(key, order = 'asc') {
 function renderPriceSort() {
   var dropDownForm = document.createElement('form')
   var dropDownContainer = document.createElement('div')
-  dropDownContainer.classList.add('form-group', 'w-25')
+  dropDownContainer.classList.add('form-group')
 
   var dropDownGroup = document.createElement('select')
   dropDownGroup.classList.add('form-control')
@@ -359,6 +365,65 @@ function renderPriceSort() {
   dropDownForm.appendChild(dropDownContainer)
 
   return dropDownForm
+}
+
+function renderBrandSort() {
+  var dropDownBrand = document.createElement('form')
+  var containerBrand = document.createElement('div')
+  containerBrand.classList.add('form-group')
+
+  var brandSelect = document.createElement('select')
+  brandSelect.classList.add('form-control')
+  brandSelect.setAttribute('name', 'drop-down-brand')
+
+  var brandView = document.createElement('option')
+  brandView.textContent = 'Brands'
+  brandSelect.appendChild(brandView)
+
+  var ludwigBrand = document.createElement('option')
+  ludwigBrand.textContent = 'Ludwig'
+  ludwigBrand.setAttribute('value', 'ludwig')
+  brandSelect.appendChild(ludwigBrand)
+
+  var vatanBrand = document.createElement('option')
+  vatanBrand.textContent = 'Vatan'
+  vatanBrand.setAttribute('value', 'vatan')
+  brandSelect.appendChild(vatanBrand)
+
+  var remoBrand = document.createElement('option')
+  remoBrand.textContent = 'Remo'
+  remoBrand.setAttribute('value', 'remo')
+  brandSelect.appendChild(remoBrand)
+
+  var paisteBrand = document.createElement('option')
+  paisteBrand.textContent = 'Paiste'
+  paisteBrand.setAttribute('value', 'paiste')
+  brandSelect.appendChild(paisteBrand)
+
+  var sonorBrand = document.createElement('option')
+  sonorBrand.textContent = 'Sonor'
+  sonorBrand.setAttribute('value', 'sonor')
+  brandSelect.appendChild(sonorBrand)
+
+  var zildjianBrand = document.createElement('option')
+  zildjianBrand.textContent = 'Zildjian'
+  zildjianBrand.setAttribute('value', 'zildjian')
+  brandSelect.appendChild(zildjianBrand)
+
+  var meinlBrand = document.createElement('option')
+  meinlBrand.textContent = 'Meinl'
+  meinlBrand.setAttribute('value', 'meinl')
+  brandSelect.appendChild(meinlBrand)
+
+  var rolandBrand = document.createElement('option')
+  rolandBrand.textContent = 'Roland'
+  rolandBrand.setAttribute('value', 'roland')
+  brandSelect.appendChild(rolandBrand)
+
+  containerBrand.appendChild(brandSelect)
+  dropDownBrand.appendChild(containerBrand)
+
+  return dropDownBrand
 }
 
 function sortPrice(app, number) {
